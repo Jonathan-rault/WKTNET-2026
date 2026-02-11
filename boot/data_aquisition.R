@@ -89,8 +89,10 @@ CE_data <- createRDBESDataObject(file_saved_ce, castToCorrectDataTypes = TRUE)
 CL_data <- createRDBESDataObject(file_saved_cl, castToCorrectDataTypes = TRUE) 
 
 ## filtering usefull (but too many) data
+
 CE_data <- CE_data |>
   filterRDBESDataObject(fieldsToFilter = "CEarea", valuesToFilter = stocks_areas$ICES_AREA)
+
 CL_data <- CL_data |>
   filterRDBESDataObject(fieldsToFilter = "CLarea", valuesToFilter = stocks_areas$ICES_AREA) |>
   filterRDBESDataObject(fieldsToFilter = "CLspecCode", valuesToFilter = stocks_infos$ICES_APHIA_1)

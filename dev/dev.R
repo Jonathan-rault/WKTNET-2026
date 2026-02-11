@@ -67,10 +67,11 @@ TAF::draft.software(
 
 TAF::draft.software(
   package = "TEST.PACKAGE",
-  # author = NULL,
-  # year = NULL,
-  # title = NULL,
-  # version = NULL,
-  source = "https://github.com/Jonathan-rault/r-package-test-taf@6bf12c1",
+  author = NULL,
+  year = NULL,
+  title = NULL,
+  version = NULL,
+  source = "Jonathan-rault/r-package-test-taf@6bf12c1",
+  file = TRUE,
   append = TRUE
 )
