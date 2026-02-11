@@ -1,0 +1,271 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% IFREMER SIH TEMPLATE BEGIN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% SOME USEFULL LIBRARIES [TEMPLATE + LATEX]
+\usepackage[immediate]{silence}
+\WarningFilter[temp]{latex}{Command} % silence the warning
+\usepackage{sectsty}
+\DeactivateWarningFilters[temp]
+\makeatletter
+\@ifpackageloaded{babel}{}{\usepackage[french]{babel}}
+\makeatother
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{calc}
+\usepackage{pifont}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{xstring}
+\usepackage{changepage}
+\usepackage{xpatch}
+\usepackage{lipsum}
+\usepackage{ifthen}
+%\usepackage{etoolbox}
+%\usepackage{layouts}
+
+%% COMMAND TO SAVE THE SUB TITLE
+\providecommand{\subtitle}[1]{
+  \def\thesubtitle{#1}
+}
+
+%% SET SOME DEFAULTS VALUES TO VARIABLES
+\ifx\typedoc\undefined\def\typedoc{rapport}\fi
+\ifx\affiliation\undefined\def\affiliation{RBE - Unit\'e HISSEO}\fi
+\ifx\footshorttitle\undefined\def\footshorttitle{\thetitle}\fi
+\ifx\thesubtitle\undefined\def\thesubtitle{}\fi
+\ifx\templatedir\undefined\def\templatedir{./template}\fi
+\ifx\simpleifremerlogo\undefined\def\simpleifremerlogo{N}\fi
+\ifx\myfirstpagelogo\undefined\def\myfirstpagelogo{\templatedir/financeurs_default}\fi
+
+%% COLOR DEFINITION
+\definecolor{colormain}{RGB}{0,115,130}
+\definecolor{bluesih2}{RGB}{0,140,155}
+\definecolor{bluesih3}{RGB}{111,174,183}
+\definecolor{bluesih4}{RGB}{177,210,216}
+\definecolor{yellowsih1}{RGB}{252,194,0}
+\definecolor{yellowsih2}{RGB}{255,210,91}
+\definecolor{yellowsih3}{RGB}{255,233,160}
+\definecolor{redsih2}{RGB}{228,70,59}
+\definecolor{truebluesih}{RGB}{0,104,159}
+
+%% MAIN COLOR USED
+\colorlet{colormain}{truebluesih}
+
+%% COLOR FOR background chunk [now in custom_theme]
+% \definecolor{shadecolor}{RGB}{234, 255, 255}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% DEFAULT FONT SET-UP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% GLOBAL DEFAULT FONT
+%\usepackage{fontsize}
+%\changefontsize{11pt}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% TITLE PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{titling}
+
+\makeatletter
+\renewcommand{\maketitle}{
+  \begin{titlepage}
+
+    % for debug : print page dimension
+    %\printinunitsof{pt}\prntlen{\paperwidth}\\
+    % \printinunitsof{cm}\prntlen{\paperheight}\\
+    % \printinunitsof{cm}\prntlen{\textheight}\\
+    % \printinunitsof{cm}\prntlen{\footskip}\\
+    % \printinunitsof{cm}\prntlen{\voffset}\\
+    % \printinunitsof{cm}\prntlen{\topmargin}\\
+    % \printinunitsof{cm}\prntlen{\headsep}\\
+    % \printinunitsof{cm}\prntlen{\headheight}\\
+    % \printinunitsof{cm}\prntlen{\marginparpush}\\
+    
+    % SET UP PAGE GEOMETRY FOR THE TITLE PAGE
+    \newgeometry{hmargin=0.5cm, vmargin=1cm}
+    \setlength{\voffset}{0cm}
+
+    %% HEADER WIDTH
+    \def\bandwidth{0.87\paperwidth}
+    \def\bandwidthy{0.871\paperwidth}
+
+    %% HEADER
+    \begin{center}
+      \includegraphics[width=\bandwidth]{\templatedir/blue_header.jpg}
+    \end{center}
+    \vspace*{-0.4cm}
+    \begin{mdframed}[linewidth=0, backgroundcolor=yellowsih3, userdefinedwidth=\bandwidthy, align=center]
+      \flushright\LARGE\textbf{\textcolor{colormain}{\typedoc}}
+    \end{mdframed}
+
+    %% TITLE AND SUBTITLE
+    \vspace*{\fill}
+    \begin{center}
+      \parbox{17cm}{\centering\huge\textcolor{colormain}{\textbf{\thetitle}}}
+    \end{center}
+    \ifx\thesubtitle\empty\else
+    \vspace{1cm}
+    \begin{center}
+      \color{black}\rule{0.1\textwidth}{2pt}
+    \end{center}
+    \vspace{1cm}
+    \begin{center}
+      \parbox{17cm}{\centering\Large\textcolor{colormain}{\textbf{\thesubtitle}}}
+    \end{center}
+    \fi
+
+    \vspace*{\fill}
+
+    %% QUALITY LOGO
+    \ifx\removequalitylogo\undefined
+      \begin{center}
+        \includegraphics[width=3cm]{\templatedir/quality.png}
+      \end{center}
+      \vspace{1cm}
+    \fi
+
+    % AFFILIATION / AUTHOR / DATE
+    \begin{center}
+      \parbox{17cm}{
+        \large\textbf{\affiliation} \\[0.2cm]
+        \textbf{\StrSubstitute{\theauthor}{,}{ $\bullet$ }} \\[0.2cm]
+        \ifx\thedate\empty\textbf{\today}\else\textbf{\thedate}\fi
+      }
+    \end{center}
+    
+    % FINANCEURS / LOGOS
+    \vspace{1cm}
+    \begin{center}
+      \includegraphics[height=2.5cm]{\myfirstpagelogo}
+    \end{center}
+
+  \end{titlepage}
+
+  % RESTORE THE DEFAULT GEOMETRY
+  \restoregeometry
+
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% SECTION FONT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% POLICE SET-UP
+\allsectionsfont{\sffamily\color{colormain}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% TABLES / FIGURES CAPTION DISPLAY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{caption}
+
+%% TABLE CAPTION SET UP 
+\captionsetup[table]{
+    labelfont = {bf, color = colormain},
+    textfont = {bf, color = black!80},
+    labelsep = {colon},
+}
+
+%% LONG TABLE CAPTION SET UP 
+\captionsetup[longtable]{
+    labelfont = {bf, color = colormain},
+    textfont = {bf, color = black!80},
+    labelsep = {colon},
+}
+
+%% FIGURE CAPTION SET UP 
+\captionsetup[figure]{
+    labelfont = {bf, color = colormain},
+    textfont = {bf, color = black!80},
+    labelsep = {colon},
+}
+
+%% TABLE NUMEROTATION
+% \makeatletter
+% \@addtoreset{table}{section}
+% \makeatother
+% \renewcommand\thetable{\thesection.\arabic{table}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% ITEMIZE SET UP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{enumitem}
+
+\renewcommand{\tightlist}{\relax}
+\setlist[itemize]{label={$\color{colormain}\bullet$}, itemsep=0.05cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% DEFAULT PAGE FORMAT + HEADER & FOOTER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+%% MARGINS PARAMETERS
+\def\defaultpageformat{
+  \setlength{\topmargin}{0cm}
+  \setlength{\voffset}{-0.9in}
+  \setlength{\headheight}{54.7pt}
+  \setlength{\headsep}{0pt}
+  \setlength{\footskip}{1.1cm}
+  \addtolength{\textheight}{-0.8cm}
+}
+
+%% SET UP MARGINS PARAMETERS
+\defaultpageformat
+
+%% HEADER AND FOOTER
+\pagestyle{fancy}
+
+\newcommand{\mylogo}[1]{%                                                                                                                   
+  \ifthenelse{\equal{#1}{N}}{\rhead{\includegraphics[height=1.5cm]{\templatedir/ifremer-SIH-bleu.jpg}}}{
+    \ifthenelse{\equal{#1}{Y}}{\rhead{\includegraphics[height=1.25cm]{\templatedir/ifremer-bleu.jpg}}}{\rhead{}}%   
+  }%
+}
+
+\lhead{}
+\chead{\raisebox{0.8cm}{\color{colormain}\rule{0.99\textwidth}{0.3cm}}}
+\mylogo{\simpleifremerlogo}
+%\rhead{}
+
+\lfoot{\bf\small\textcolor{colormain}{\footshorttitle}}
+\cfoot{}
+\rfoot{\bf\normalsize\textcolor{colormain}{Page \thepage\ / \pageref{LastPage}}}
+
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{1.5pt}
+\xpretocmd{\footrule}{\color{colormain}}{}{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% SOME USEFULL COMMAND %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% command to change font locally
+\newcommand{\changefont}[2]{{\begingroup\fontsize{#1}{#1}\selectfont#2\endgroup}}
+\newcommand{\changefontb}[2]{{\begingroup\fontsize{#1}{#1}\selectfont\textbf{#2}\endgroup}}
+\newcommand{\changefontbb}[2]{{\begingroup\fontsize{#1}{#1}\selectfont\textcolor{colormain}{\textbf{#2}}\endgroup}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% END SIH TEMPLATE SET UP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
