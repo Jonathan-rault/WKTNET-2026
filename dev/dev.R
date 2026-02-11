@@ -24,6 +24,14 @@ TAF::draft.data(
 )
 
 TAF::draft.data(
+  originator = "ICES",
+  data.files = "WKNatEst recommendation - alternative format to Annex 1 to increase compatibility with national estimation in RDBES_TAF_____.xlsx",
+  title = "estimations requirement for each stocks",
+  file = TRUE,
+  append = TRUE
+)
+
+TAF::draft.data(
   originator = "ifremer",
   data.files = "TEMPLATES",
   title = "template for rendering rmarkdown pdf",

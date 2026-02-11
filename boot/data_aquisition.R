@@ -23,6 +23,7 @@ source("../../../PARAMETERS.R")
 year <- params$year
 stocks <- params$stocks
 
+
 #######################################################################
 ##### PATH AND DIRECTORIES ############################################
 #######################################################################
@@ -37,7 +38,7 @@ file_ices_stocks <- "../referentiel_stocks_ices.xlsx"
 
 
 #######################################################################
-##### GETTING STOCK INFORMATIONS ######################################
+##### GETTING STOCK INFORMATIONS FROM STOCK DEFINITION TABLE ##########
 #######################################################################
 
 ices_stocks <- xlsx_read_tables(file_ices_stocks)
@@ -78,19 +79,28 @@ CL <- RDBES_API_download(
   export_format = "TableWithIdsFormat"
 )
 
+
+## saving zip files in temporary folder
 file_saved_ce <- RDBES_API_save_zip(CE, path_outputs = path_tmp, file_name = NULL)
 file_saved_cl <- RDBES_API_save_zip(CL, path_outputs = path_tmp, file_name = NULL)
 
+## reading zip files from temporary folder
 CE_data <- createRDBESDataObject(file_saved_ce, castToCorrectDataTypes = TRUE) 
 CL_data <- createRDBESDataObject(file_saved_cl, castToCorrectDataTypes = TRUE) 
 
+## filtering usefull (but too many) data
 CE_data <- CE_data |>
   filterRDBESDataObject(fieldsToFilter = "CEarea", valuesToFilter = stocks_areas$ICES_AREA)
-
 CL_data <- CL_data |>
   filterRDBESDataObject(fieldsToFilter = "CLarea", valuesToFilter = stocks_areas$ICES_AREA) |>
   filterRDBESDataObject(fieldsToFilter = "CLspecCode", valuesToFilter = stocks_infos$ICES_APHIA_1)
 
+## combining RDBES data
 RDBES_data <- combineRDBESDataObjects(CE_data, CL_data)
+
+
+#######################################################################
+##### SAVING ALL USEFULL DATA #########################################
+#######################################################################
 
 saveRDS(RDBES_data, file = paste0(path_rdbes, "/", "RDBES_data.rds"))
